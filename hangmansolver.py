@@ -18,8 +18,9 @@ class HangmanSolver(object):
         self._words_list = words
 
     @staticmethod
-    def _filter_matched_words(words_list, word_letters):
-        regex_s = HangmanSolver._word_letters_to_regex_s(word_letters)
+    def _filter_matched_words(words_list, word_letters, exclude_letters=[]):
+        regex_s = HangmanSolver._word_letters_to_regex_s(word_letters,
+            exclude_letters)
         regex = re.compile(regex_s)
         return filter(regex.search, words_list)
 
@@ -46,12 +47,17 @@ class HangmanSolver(object):
         return chars
 
     @staticmethod
-    def _word_letters_to_regex_s(word_letters):
+    def _word_letters_to_regex_s(word_letters, exclude_letters=[]):
         regexp = '^'
+
+        if exclude_letters == []:
+            charexp = '.'
+        else:
+            charexp = '[^' + ''.join(exclude_letters) + ']'
 
         for letter in word_letters:
             if letter is None:
-                regexp += '.'
+                regexp += charexp
             else:
                 regexp += letter.lower()
 
@@ -62,7 +68,7 @@ class HangmanSolver(object):
     def get_next_move(self):
         """Returns the letter that should be played next."""
         self._words_list = HangmanSolver._filter_matched_words(
-            self._words_list, self._word_letters)
+            self._words_list, self._word_letters, self._guessed_letters)
 
         chars = HangmanSolver._get_most_popular_chars(self._words_list)
 
