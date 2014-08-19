@@ -66,7 +66,9 @@ class HangmanSolver(object):
 
         chars = HangmanSolver._get_most_popular_chars(self._words_list)
 
-        print chars
+        for char in chars:
+            if char not in self._guessed_letters:
+                return char
 
     def guess_letter(self, letter):
         """Add a new guessed letter."""
