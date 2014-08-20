@@ -49,6 +49,10 @@ class SlackOutgoing(object):
         global guessrecv, staterecv
 
         input = web.input()
+
+        if input.user_id != 'USLACKBOT':
+            return
+
         print input
 
         letter_guessed_match = self._re_letter_guessed.match(input.text)
@@ -69,7 +73,7 @@ class SlackOutgoing(object):
             guessrecv = False
             staterecv = False
             next_move = hangmansolvers[input.channel_name].get_next_move()
-            send_message("Statistically, best letter to play now is " + next_move.upper() + ".", input.channel_name)
+            send_message("Statistically, the best letter to play now is " + next_move.upper() + ".", input.channel_name)
 
         if bool(self._re_end_game.search(input.text)):
             if input.channel_name in hangmansolvers:
