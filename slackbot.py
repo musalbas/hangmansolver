@@ -4,6 +4,7 @@
 from hangmansolver import HangmanSolver
 import re
 from slackconfig import INCOMING_WEBHOOK
+from slackconfig import OUTGOING_ALLOWED_TOKENS
 import json
 import urllib
 import urllib2
@@ -50,7 +51,8 @@ class SlackOutgoing(object):
 
         input = web.input()
 
-        if input.user_id != 'USLACKBOT':
+        if (input.token not in OUTGOING_ALLOWED_TOKENS
+            or input.user_id != 'USLACKBOT'):
             return
 
         print input

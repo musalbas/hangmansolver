@@ -1,1 +1,0 @@
-INCOMING_WEBHOOK = 'https://'
