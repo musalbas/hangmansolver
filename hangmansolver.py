@@ -59,7 +59,7 @@ class HangmanSolver(object):
             if letter is None:
                 regexp += charexp
             else:
-                regexp += letter.lower()
+                regexp += letter
 
         regexp += '$'
 
@@ -78,8 +78,16 @@ class HangmanSolver(object):
 
     def guess_letter(self, letter):
         """Add a new guessed letter."""
-        self._guessed_letters.append(letter)
+        self._guessed_letters.append(letter.lower())
 
     def set_word_letters(self, word_letters):
         """Set a new word state."""
-        self._word_letters = word_letters
+        word_letters_lower = []
+
+        for letter in word_letters:
+            if letter is None:
+                word_letters_lower.append(None)
+            else:
+                word_letters_lower.append(letter.lower())
+
+        self._word_letters = word_letters_lower
